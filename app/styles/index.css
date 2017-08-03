@@ -95,6 +95,12 @@ body {
 }
 
 /* FORM */
+.waterfallData td:nth-child(2) input,
+.waterfallData td:last-child input
+{
+    background: #e7e7e7;
+    border: none;
+}
 
 
 /* CHART */

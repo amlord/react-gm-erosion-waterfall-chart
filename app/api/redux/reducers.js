@@ -23,22 +23,27 @@ export const INITIAL_STATE = {
   data: [
     {
       name: 'STANDARD',
+      displayName: 'Standard',
       revenue: 60000,
       cogs: 37000
     },{
       name: 'DISCOUNT',
+      displayName: 'Discount',
       revenue: 50000,
       cogs: 40000
     },{
       name: 'SEGMENTED',
+      displayName: 'Segmented',
       revenue: 40000,
       cogs: 30000
     },{
       name: 'CONTRACT',
+      displayName: 'Contract',
       revenue: 120000,
       cogs: 100000
     },{
       name: 'PROMOTIONAL',
+      displayName: 'Promo',
       revenue: 5000,
       cogs: 3500
     }
@@ -48,66 +53,53 @@ export const INITIAL_STATE = {
 /* REDUCERS */
 export function gmWaterfallApp( state = initialState, action )
 {
+  let data;
+
   switch( action.type )
   {
     case INIT:
-      return Object.assign( {}, state, {
-        data: initData( state.data )
-      } );
-
+      data = initData( state.data );
+      break;
     case SET_STANDARD_REVENUE:
-      return Object.assign( {}, state, {
-        data: setDataRevenue( state, STANDARD, action.revenue )
-      } );
-
+      data = setDataRevenue( state, STANDARD, action.revenue );
+      break;
     case SET_DISCOUNT_REVENUE:
-      return Object.assign( {}, state, {
-        data: setDataRevenue( state, DISCOUNT, action.revenue )
-      } );
-
+      data = setDataRevenue( state, DISCOUNT, action.revenue );
+      break;
     case SET_SEGMENTED_REVENUE:
-      return Object.assign( {}, state, {
-        data: setDataRevenue( state, SEGMENTED, action.revenue )
-      } );
-
+      data = setDataRevenue( state, SEGMENTED, action.revenue );
+      break;
     case SET_CONTRACT_REVENUE:
-      return Object.assign( {}, state, {
-        data: setDataRevenue( state, CONTRACT, action.revenue )
-      } );
-
+      data = setDataRevenue( state, CONTRACT, action.revenue );
+      break;
     case SET_PROMOTIONAL_REVENUE:
-      return Object.assign( {}, state, {
-        data: setDataRevenue( state, PROMOTIONAL, action.revenue )
-      } );
-
+      data = setDataRevenue( state, PROMOTIONAL, action.revenue );
+      break;
     case SET_STANDARD_COGS:
-      return Object.assign( {}, state, {
-        data: setDataCogs( state, STANDARD, action.cogs )
-      } );
-
+      data = setDataCogs( state, STANDARD, action.cogs );
+      break;
     case SET_DISCOUNT_COGS:
-      return Object.assign( {}, state, {
-        data: setDataCogs( state, DISCOUNT, action.cogs )
-      } );
-
+      data = setDataCogs( state, DISCOUNT, action.cogs );
+      break;
     case SET_SEGMENTED_COGS:
-      return Object.assign( {}, state, {
-        data: setDataCogs( state, SEGMENTED, action.cogs )
-      } );
-
+      data = setDataCogs( state, SEGMENTED, action.cogs );
+      break;
     case SET_CONTRACT_COGS:
-      return Object.assign( {}, state, {
-        data: setDataCogs( state, CONTRACT, action.cogs )
-      } );
-
+      data = setDataCogs( state, CONTRACT, action.cogs );
+      break;
     case SET_PROMOTIONAL_COGS:
-      return Object.assign( {}, state, {
-        data: setDataCogs( state, PROMOTIONAL, action.cogs )
-      } );
-
+      data = setDataCogs( state, PROMOTIONAL, action.cogs );
+      break;
     default:
-      return state;
+      data = state.data;
   }
+
+  let waterfall = calcWaterfallChartValues(data);
+
+  return Object.assign( {}, state, {
+    data: data,
+    waterfall: waterfall
+  } );
 }
 
 /* HELPER FUNCTIONS */
@@ -124,7 +116,7 @@ function initData( data )
     revenue: calcDataTotalRevenue( data ),
     cogs: calcDataTotalCogs( data )
   };
-  
+
   data[TOTAL].gmPercent = calcGmPercent( data, TOTAL );
 
   return data
@@ -177,4 +169,86 @@ function calcGmPercent( data, rowId )
   let gmPercent = ( ( data[rowId].revenue - data[rowId].cogs ) / data[rowId].revenue ) * 100;
 
   return parseFloat(Math.round(gmPercent * 100) / 100).toFixed(1);
+}
+
+function calcWaterfallChartValues( data )
+{
+  let chartValues = [],
+      activeData = data.slice();
+
+  // remove unneeded items
+  activeData.splice( 0, 1 );
+  activeData.splice( activeData.length - 1, 1 );
+
+  // order array by GM Percentage value
+  activeData.sort((a, b) =>
+  {
+    if(a.gmPercent < b.gmPercent)
+    {
+      return 1;
+    }
+    if(a.gmPercent > b.gmPercent)
+    {
+      return -1;
+    }
+    return 0;
+  });
+
+  activeData.unshift(data[STANDARD]);
+
+  // start GM% value
+  chartValues.push({
+    name: "Standard",
+    gmPercent: data[STANDARD].gmPercent,
+    value: data[STANDARD].gmPercent
+  });
+
+  // create the waterfall chart data
+  for (var i = 1; i < activeData.length; i++)
+  {
+    // get the cumalative revenue value
+    let cumalativeRev = activeData.reduce((sum, value, index) => 
+    {
+      if(index <= i)
+      {
+        return sum + value.revenue
+      }
+
+      return sum;
+    }, 0);
+
+    // get the cumalative 'cost of goods' value
+    let cumalativeCogs = activeData.reduce((sum, value, index) => 
+    {
+      if(index <= i)
+      {
+        return sum + value.cogs
+      }
+
+      return sum;
+    }, 0);
+
+    // work out the cumalative GM%
+    let gmPercent = ( ( cumalativeRev - cumalativeCogs ) / cumalativeRev ) * 100;
+    gmPercent = parseFloat(Math.round(gmPercent * 100) / 100).toFixed(1);
+
+    // work out the GM difference with the previous row
+    let gmDiff = chartValues[i-1].gmPercent - gmPercent;
+    gmDiff = parseFloat(Math.round(gmDiff * 100) / 100).toFixed(1) * -1;
+
+    // add chart data to the array
+    chartValues.push({
+      name: activeData[i].displayName,
+      gmPercent: gmPercent,
+      value: gmDiff
+    });
+  }
+
+  // actual GM% value
+  chartValues.push({
+    name: "Actual",
+    value: data[TOTAL].gmPercent
+  });
+
+  return chartValues;
 }
