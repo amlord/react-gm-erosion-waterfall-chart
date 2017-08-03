@@ -71,7 +71,7 @@ body {
 .table td:first-child {
     font-weight: bold;
     padding-right: 5px;
-    width: 65px;
+    width: 50px;
 }
 
 .table input {

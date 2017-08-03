@@ -2,29 +2,90 @@
 let { connect } = require('react-redux');
 
 // user-defined app components
-let { setStdGmRev, setStdGmCogs } = require('../../api/redux/actions.js');
-const { STANDARD, DISCOUNT, SEGMENTED, CONTRACT, TOTAL } = require('../../api/redux/actions.js');
+let {
+    setStandardGmRev,
+    setDiscountGmRev,
+    setSegmentedGmRev,
+    setContractGmRev,
+    setPromotionalGmRev,
+    setStandardGmCogs,
+    setDiscountGmCogs,
+    setSegmentedGmCogs,
+    setContractGmCogs,
+    setPromotionalGmCogs
+} = require('../../api/redux/actions.js');
+const { STANDARD, DISCOUNT, SEGMENTED, CONTRACT, PROMOTIONAL, TOTAL } = require('../../api/redux/actions.js');
 let GmErosionForm = require('./GmErosionForm.jsx');
 
 const mapStateToProps = state =>
-{console.log(state);
+{
   return {
-    stdRevenue: state.data[STANDARD].revenue,
-    stdCogs: state.data[STANDARD].cogs,
-    totalRevenue: state.data[TOTAL].revenue
+    revStandard: state.data[STANDARD].revenue,
+    revDiscount: state.data[DISCOUNT].revenue,
+    revSegmented: state.data[SEGMENTED].revenue,
+    revContract: state.data[CONTRACT].revenue,
+    revPromotional: state.data[PROMOTIONAL].revenue,
+    revTotal: state.data[TOTAL].revenue,
+
+    cogStandard: state.data[STANDARD].cogs,
+    cogDiscount: state.data[DISCOUNT].cogs,
+    cogSegmented: state.data[SEGMENTED].cogs,
+    cogContract: state.data[CONTRACT].cogs,
+    cogPromotional: state.data[PROMOTIONAL].cogs,
+    cogTotal: state.data[TOTAL].cogs,
+
+    gmpStandard: state.data[STANDARD].gmPercent,
+    gmpDiscount: state.data[DISCOUNT].gmPercent,
+    gmpSegmented: state.data[SEGMENTED].gmPercent,
+    gmpContract: state.data[CONTRACT].gmPercent,
+    gmpPromotional: state.data[PROMOTIONAL].gmPercent,
+    gmpTotal: state.data[TOTAL].gmPercent
   }
 }
 
 const mapDispatchToProps = dispatch =>
 {
   return {
-    onStdGmRevUpdate: stdRevenue =>
+    onStandardGmRevUpdate: revStandard =>
     {
-      dispatch( setStdGmRev( stdRevenue ) )
+      dispatch( setStandardGmRev( revStandard ) )
     },
-    onStdGmCogsUpdate: stdCogs =>
+    onDiscountGmRevUpdate: revDiscount =>
     {
-      dispatch( setStdGmCogs( stdCogs ) )
+      dispatch( setDiscountGmRev( revDiscount ) )
+    },
+    onSegmentedGmRevUpdate: revDiscount =>
+    {
+      dispatch( setSegmentedGmRev( revDiscount ) )
+    },
+    onContractGmRevUpdate: revDiscount =>
+    {
+      dispatch( setContractGmRev( revDiscount ) )
+    },
+    onPromotionalGmRevUpdate: revPromotional =>
+    {
+      dispatch( setPromotionalGmRev( revPromotional ) )
+    },
+
+    onStandardGmCogUpdate: cogStandard =>
+    {
+      dispatch( setStandardGmCogs( cogStandard ) )
+    },
+    onDiscountGmCogUpdate: cogDiscount =>
+    {
+      dispatch( setDiscountGmCogs( cogDiscount ) )
+    },
+    onSegmentedGmCogUpdate: cogSegmented =>
+    {
+      dispatch( setSegmentedGmCogs( cogSegmented ) )
+    },
+    onContractGmCogUpdate: cogContract =>
+    {
+      dispatch( setContractGmCogs( cogContract ) )
+    },
+    onPromotionalGmCogUpdate: cogPromotional =>
+    {
+      dispatch( setContractGmCogs( cogPromotional ) )
     }
   }
 }
