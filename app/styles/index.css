@@ -85,6 +85,11 @@ body {
     text-align: center;
 }
 
+.table input[readonly] {
+    background: transparent;
+    border: 2px dashed #e5e5e5;
+}
+
 .fieldContainer {
     padding: 5px;
 }

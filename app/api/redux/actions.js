@@ -1,3 +1,10 @@
+/* LLINE ITEM IDs */
+export const STANDARD = 0
+export const DISCOUNT = 1
+export const SEGMENTED = 2
+export const CONTRACT = 3
+export const TOTAL = 4
+
 /* ACTION TYPES */
 export const LOAD_DATA = 'LOAD_DATA'
 export const SET_STD_REVENUE = 'SET_STD_REVENUE'

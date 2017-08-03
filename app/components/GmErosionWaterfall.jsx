@@ -2,7 +2,7 @@ let React = require('react');
 let { connect } = require('react-redux');
 
 // user-defined app components
-let GmErosionForm = require('./form/GmErosionForm.jsx');
+let GmErosionFormContainer = require('./form/GmErosionFormContainer.jsx');
 let CalculatedValues = require('./form/CalculatedValues.jsx');
 let WaterfallChart = require('./chart/WaterfallChart.jsx');
 
@@ -13,7 +13,7 @@ class GmErosionWaterfall extends React.Component
         return (
             <div className="gmErosionWaterfallContainer">
                 <WaterfallChart />
-                <GmErosionForm />
+                <GmErosionFormContainer />
                 <CalculatedValues />
             </div>
         );

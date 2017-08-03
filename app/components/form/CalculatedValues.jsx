@@ -26,37 +26,37 @@ class CalculatedValues extends React.Component
                                 <tr>
                                     <td><abbr title="Gross Margin">GM</abbr>%</td>
                                     <td>
-                                        <div className="fieldContainer"><input disabled /></div>
+                                        <div className="fieldContainer"><input readOnly /></div>
                                     </td>
                                     <td>
-                                        <div className="fieldContainer"><input disabled /></div>
+                                        <div className="fieldContainer"><input readOnly /></div>
                                     </td>
                                     <td>
-                                        <div className="fieldContainer"><input disabled /></div>
+                                        <div className="fieldContainer"><input readOnly /></div>
                                     </td>
                                     <td>
-                                        <div className="fieldContainer"><input disabled /></div>
+                                        <div className="fieldContainer"><input readOnly /></div>
                                     </td>
                                     <td>
-                                        <div className="fieldContainer"><input disabled /></div>
+                                        <div className="fieldContainer"><input readOnly /></div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Difference</td>
                                     <td>
-                                        <div className="fieldContainer"><input disabled /></div>
+                                        <div className="fieldContainer"><input readOnly /></div>
                                     </td>
                                     <td>
-                                        <div className="fieldContainer"><input disabled /></div>
+                                        <div className="fieldContainer"><input readOnly /></div>
                                     </td>
                                     <td>
-                                        <div className="fieldContainer"><input disabled /></div>
+                                        <div className="fieldContainer"><input readOnly /></div>
                                     </td>
                                     <td>
-                                        <div className="fieldContainer"><input disabled /></div>
+                                        <div className="fieldContainer"><input readOnly /></div>
                                     </td>
                                     <td>
-                                        <div className="fieldContainer"><input disabled /></div>
+                                        <div className="fieldContainer"><input readOnly /></div>
                                     </td>
                                 </tr>
                             </tbody>

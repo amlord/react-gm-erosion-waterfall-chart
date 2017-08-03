@@ -3,6 +3,42 @@ let { connect } = require('react-redux');
 
 class GmErosionForm extends React.Component
 {
+    constructor(props)
+    {
+        super(props);
+
+        this.state = {
+            stdRevenue: 0,
+            stdCogs: 0,
+            totalRevenue: 0
+        };
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange( event )
+    {
+        let stdRevenue = event.target.value;
+
+        this.setState({
+            stdRevenue: stdRevenue
+        },() => {
+            this.props.onStdGmRevUpdate( stdRevenue );
+        });
+    }
+
+    componentWillReceiveProps( nextProps )
+    {
+        let { totalRevenue } = this.state;
+
+        if( nextProps.totalRevenue !== totalRevenue )
+        {
+            this.setState({
+                totalRevenue: nextProps.totalRevenue
+            });
+        }
+    }
+
     render()
     {
         return (
@@ -27,7 +63,11 @@ class GmErosionForm extends React.Component
                                 <tr>
                                     <td>Revenue</td>
                                     <td>
-                                        <div className="fieldContainer"><input /></div>
+                                        <div className="fieldContainer">
+                                            <input 
+                                                value={this.state.stdRevenue}
+                                                onChange={this.handleChange}/>
+                                        </div>
                                     </td>
                                     <td>
                                         <div className="fieldContainer"><input /></div>
@@ -39,7 +79,11 @@ class GmErosionForm extends React.Component
                                         <div className="fieldContainer"><input /></div>
                                     </td>
                                     <td>
-                                        <div className="fieldContainer"><input disabled /></div>
+                                        <div className="fieldContainer">
+                                            <input
+                                                value={this.state.totalRevenue}
+                                                readOnly />
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -57,7 +101,7 @@ class GmErosionForm extends React.Component
                                         <div className="fieldContainer"><input /></div>
                                     </td>
                                     <td>
-                                        <div className="fieldContainer"><input disabled /></div>
+                                        <div className="fieldContainer"><input readOnly /></div>
                                     </td>
                                 </tr>
                             </tbody>

@@ -1,12 +1,14 @@
 /* CONSTANTS */
-/* CONSTANT VALUES */
-const STANDARD = 0
-const DISCOUNT = 1
-const SEGMENTED = 2
-const CONTRACT = 3
-const TOTAL = 4
-
-const { LOAD_DATA, SET_STD_REVENUE, SET_STD_COGS } = require('./actions');
+const {
+  STANDARD,
+  DISCOUNT,
+  SEGMENTED,
+  CONTRACT,
+  TOTAL,
+  LOAD_DATA,
+  SET_STD_REVENUE,
+  SET_STD_COGS
+} = require('./actions');
 const initialState = {
   data: [
     {
@@ -39,7 +41,7 @@ const initialState = {
 };
 
 /* REDUCERS */
-export function dealerMapApp( state = initialState, action )
+export function gmWaterfallApp( state = initialState, action )
 {
   switch( action.type )
   {
@@ -50,12 +52,12 @@ export function dealerMapApp( state = initialState, action )
 
     case SET_STD_REVENUE:
       return Object.assign( {}, state, {
-        data: setDataRevenue( STANDARD, action.revenue )
+        data: setDataRevenue( state, STANDARD, action.revenue )
       } );
 
     case SET_STD_COGS:
       return Object.assign( {}, state, {
-        data: setDataRevenue( STANDARD, action.cogs )
+        data: setDataRevenue( state, STANDARD, action.cogs )
       } );
 
     default:
@@ -64,11 +66,11 @@ export function dealerMapApp( state = initialState, action )
 }
 
 /* HELPER FUNCTIONS */
-function setDataRevenue( dataId, revenue )
+function setDataRevenue( state, dataId, revenue )
 {
   let data = state.data;
 
-  data[dataId].revenue = revenue;
+  data[dataId].revenue = parseInt(revenue);
 
   data[TOTAL].revenue = data[STANDARD].revenue +
                         data[DISCOUNT].revenue +
@@ -78,11 +80,11 @@ function setDataRevenue( dataId, revenue )
   return data;
 }
 
-function setDataCogs( dataId, cogs )
+function setDataCogs( state, dataId, cogs )
 {
   let data = state.data;
   
-  data[dataId].cogs = cogs;
+  data[dataId].cogs = parseInt(cogs);
 
   data[TOTAL].cogs = data[STANDARD].cogs +
                      data[DISCOUNT].cogs +

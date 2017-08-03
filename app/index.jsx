@@ -9,14 +9,11 @@ const { createStore } = Redux;
 
 // user-defined app components
 let { setSearchText } = require('./api/redux/actions.js');
-let { dealerMapApp } = require('./api/redux/reducers.js');
+let { gmWaterfallApp } = require('./api/redux/reducers.js');
 let GmErosionWaterfall = require('./components/GmErosionWaterfall.jsx');
 
 // define Redux data store
-let store = createStore( dealerMapApp, {
-  dealers: "",
-  searchText: ""
-} );
+let store = createStore( gmWaterfallApp );
 
 // specific dealer map styles
 require('./styles/index.css');
