@@ -43,9 +43,9 @@ class WaterfallChart extends React.Component
 
         // get min & max data values
         let dMax = d3.max(data, d => {
-            return d.value;
+            return d.gmPercent;
         });
-console.log(data, dMax);
+
         // calculate height & width (using golden ratio)
         let width = document.querySelector('.waterfallChart').offsetWidth;
         let height = width / goldenRatio;
