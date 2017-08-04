@@ -2,7 +2,7 @@
 let { connect } = require('react-redux');
 
 // user-defined app components
-let CalculatedValues = require('./CalculatedValues.jsx');
+let WaterfallChart = require('./WaterfallChart.jsx');
 
 const mapStateToProps = state =>
 {
@@ -16,9 +16,9 @@ const mapDispatchToProps = dispatch =>
   return {};
 }
 
-const CalculatedValuesContainer = connect(
+const WaterfallChartContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(CalculatedValues)
+)(WaterfallChart)
 
-module.exports = CalculatedValuesContainer;
+module.exports = WaterfallChartContainer;

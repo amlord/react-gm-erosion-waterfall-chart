@@ -85,7 +85,7 @@ const mapDispatchToProps = dispatch =>
     },
     onPromotionalGmCogUpdate: cogPromotional =>
     {
-      dispatch( setContractGmCogs( cogPromotional ) )
+      dispatch( setPromotionalGmCogs( cogPromotional ) )
     }
   }
 }

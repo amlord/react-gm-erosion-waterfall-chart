@@ -26,7 +26,6 @@ class CalculatedValues extends React.Component
 
     render()
     {
-        console.log(this.state.waterfall);
         return (
             <div className="panel">
                 <header className="panelHeader panelHeader--info">

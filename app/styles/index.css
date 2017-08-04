@@ -104,3 +104,12 @@ body {
 
 
 /* CHART */
+.waterfallChart__bar {
+    fill: #ccc;
+}
+.waterfallChart__bar:first-child {
+    fill: #003a5d;
+}
+.waterfallChart__bar:last-child {
+    fill: #fbb829;
+}

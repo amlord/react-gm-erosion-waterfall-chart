@@ -4,7 +4,7 @@ let { connect } = require('react-redux');
 // user-defined app components
 let GmErosionFormContainer = require('./form/GmErosionFormContainer.jsx');
 let CalculatedValuesContainer = require('./form/CalculatedValuesContainer.jsx');
-let WaterfallChart = require('./chart/WaterfallChart.jsx');
+let WaterfallChartContainer = require('./chart/WaterfallChartContainer.jsx');
 
 class GmErosionWaterfall extends React.Component
 {
@@ -12,9 +12,9 @@ class GmErosionWaterfall extends React.Component
     {
         return (
             <div className="gmErosionWaterfallContainer">
-                <WaterfallChart />
-                <GmErosionFormContainer />
+                <WaterfallChartContainer />
                 <CalculatedValuesContainer />
+                <GmErosionFormContainer />
             </div>
         );
     }
