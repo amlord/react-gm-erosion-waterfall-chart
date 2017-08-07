@@ -119,3 +119,9 @@ body {
     font-size: 11px;
     font-weight: bold;
 }
+
+.waterfallChart__axis path,
+.waterfallChart__axis line {
+    fill: none;
+    shape-rendering: crispEdges;
+}

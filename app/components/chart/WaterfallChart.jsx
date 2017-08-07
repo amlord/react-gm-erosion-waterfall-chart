@@ -52,6 +52,7 @@ class WaterfallChart extends React.Component
 
         // get min & max data values
         let dMax = d3.max(data, d => {
+            console.log(d.gmPercent);
             return d.gmPercent;
         });
 
@@ -59,9 +60,9 @@ class WaterfallChart extends React.Component
         let width = document.querySelector('.waterfallChart').offsetWidth;
         let height = width / goldenRatio;
         let margin = {
-            top: 0,
+            top: 5,
             bottom: 20,
-            left: 10,
+            left: 30,
             right: 10
         };
         let innerWidth = width - margin.left - margin.right;
@@ -77,13 +78,17 @@ class WaterfallChart extends React.Component
                         .classed("waterfallChart__bars", true)
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
-        let labels = svg.append("g")
-                        .classed("waterfallChart__labels", true)
+        let xAxisGroup = svg.append("g")
+                        .classed("waterfallChart__axis waterfallChart__axis--x", true)
+                        .attr("transform", "translate(" + margin.left + "," + ( height - margin.bottom ) + ")");
+        
+        let yAxisGroup = svg.append("g")
+                        .classed("waterfallChart__axis waterfallChart__axis--y", true)
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         let y = d3.scaleLinear()
             .domain([0, dMax])
-            .range([0, innerHeight]);
+            .range([innerHeight, 0]);
 
         let x = d3.scaleBand()
             .domain(data.map(d =>
@@ -91,6 +96,9 @@ class WaterfallChart extends React.Component
                 return d.name;
             }))
             .range([0, innerWidth]);
+
+        let xAxis = d3.axisBottom(x);
+        let yAxis = d3.axisLeft(y);
 
         let yPos = [0];
 
@@ -110,31 +118,17 @@ class WaterfallChart extends React.Component
                                 0 :
                                 yPos[i] + ( parseFloat(d.value) * -1 ) );
 
-                    return y(yPos[i]);
+                    return innerHeight - y(yPos[i]);
                 })
                 .attr("width", x.bandwidth() - ( x.bandwidth() * 0.25 ) )
                 .attr("height", (d, i) =>
                 {
-                    return  y(Math.abs(d.value));
+                    return  innerHeight - y(Math.abs(d.value));
                 });
-    
-        // add labels to the chart
-        labels.selectAll(".waterfallChart__barLabel")
-            .data(data)
-            .enter()
-                .append("text")
-                .classed("waterfallChart__barLabel", true)
-                .attr("x", (d, i) =>
-                {
-                    return x(d.name) + ( x.bandwidth() * 0.125 );
-                })
-                .attr("y", height)
-                .attr("width", x.bandwidth() - ( x.bandwidth() * 0.25 ))
-                .attr("text-anchor", "middle")
-                .text((d,i) =>
-                {
-                    return d.name + " (" + d.value + ")";
-                });
+        
+        // add the axes
+        xAxisGroup.call(xAxis);
+        yAxisGroup.call(yAxis);
     }
 
     render()
