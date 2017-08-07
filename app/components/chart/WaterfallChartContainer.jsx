@@ -7,13 +7,19 @@ let WaterfallChart = require('./WaterfallChart.jsx');
 const mapStateToProps = state =>
 {
   return {
-    waterfall: state.waterfall
+    waterfall: state.waterfall,
+    target: state.target
   }
 }
 
 const mapDispatchToProps = dispatch =>
 {
-  return {};
+  return {
+    onTargetGmUpdate: targetGm =>
+    {
+      dispatch( setTargetGm( targetGm ) )
+    }
+  };
 }
 
 const WaterfallChartContainer = connect(

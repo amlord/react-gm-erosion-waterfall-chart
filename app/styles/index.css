@@ -125,3 +125,7 @@ body {
     fill: none;
     shape-rendering: crispEdges;
 }
+
+.waterfallChart__targetGmLine {
+    fill: #F02D52;
+}

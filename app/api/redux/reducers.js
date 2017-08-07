@@ -16,7 +16,8 @@ const {
   SET_DISCOUNT_COGS,
   SET_SEGMENTED_COGS,
   SET_CONTRACT_COGS,
-  SET_PROMOTIONAL_COGS
+  SET_PROMOTIONAL_COGS,
+  SET_TARGET_GM
 } = require('./actions');
 
 export const INITIAL_STATE = {
@@ -54,7 +55,7 @@ export const INITIAL_STATE = {
 /* REDUCERS */
 export function gmWaterfallApp( state = initialState, action )
 {
-  let data;
+  let data, targetGm = state.target;
 
   switch( action.type )
   {
@@ -91,6 +92,9 @@ export function gmWaterfallApp( state = initialState, action )
     case SET_PROMOTIONAL_COGS:
       data = setDataCogs( state, PROMOTIONAL, action.cogs );
       break;
+    case SET_TARGET_GM:
+      targetGm = action.target;
+      break;
     default:
       data = state.data;
   }
@@ -99,7 +103,8 @@ export function gmWaterfallApp( state = initialState, action )
 
   return Object.assign( {}, state, {
     data: data,
-    waterfall: waterfall
+    waterfall: waterfall,
+    target: targetGm
   } );
 }
 

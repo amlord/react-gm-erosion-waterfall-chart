@@ -8,7 +8,8 @@ class WaterfallChart extends React.Component
         super(props);
 
         this.state = {
-            waterfall: props.waterfall
+            waterfall: props.waterfall,
+            target: props.target
         };
 
         this.drawWaterfallChart = this.drawWaterfallChart.bind(this);
@@ -47,8 +48,9 @@ class WaterfallChart extends React.Component
 
     drawWaterfallChart()
     {
-        let data = this.state.waterfall;
-        const goldenRatio = 1.61803398875;
+        const data = this.state.waterfall,
+            targetGm = this.state.target,
+            goldenRatio = 1.61803398875;
 
         // get min & max data values
         let dMax = d3.max(data, d => {
@@ -83,6 +85,10 @@ class WaterfallChart extends React.Component
         
         let yAxisGroup = svg.append("g")
                         .classed("waterfallChart__axis waterfallChart__axis--y", true)
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+        let target = svg.append("g")
+                        .classed("waterfallChart__targetGm", true)
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         let y = d3.scaleLinear()
@@ -121,7 +127,8 @@ class WaterfallChart extends React.Component
                         return y(d.value);
                     }
 
-                    // bars 'eroding' first bar value
+                    /* bars 'eroding' first bar value (+ve / -ve 
+                       depending on cumalative GM% effect) */
                     return ( data[i].gmPercent > data[i-1].gmPercent ) ?
                         y( parseFloat(data[i].gmPercent) ) :
                         y( parseFloat(data[i-1].gmPercent) );
@@ -135,6 +142,14 @@ class WaterfallChart extends React.Component
         // add the axes
         xAxisGroup.call(xAxis);
         yAxisGroup.call(yAxis);
+
+        // add target GM% to the chart
+        target
+            .append("rect").classed("waterfallChart__targetGmLine", true)
+            .attr("x", 0)
+            .attr("y", y(targetGm))
+            .attr("width", innerWidth )
+            .attr("height", 1);
     }
 
     render()
