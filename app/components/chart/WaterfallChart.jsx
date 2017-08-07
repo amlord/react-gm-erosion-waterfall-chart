@@ -52,7 +52,6 @@ class WaterfallChart extends React.Component
 
         // get min & max data values
         let dMax = d3.max(data, d => {
-            console.log(d.gmPercent);
             return d.gmPercent;
         });
 
@@ -100,7 +99,7 @@ class WaterfallChart extends React.Component
         let xAxis = d3.axisBottom(x);
         let yAxis = d3.axisLeft(y);
 
-        let yPos = [0];
+        let yPos = [];
 
         // add bars to the chart
         chart.selectAll(".waterfallChart__bar")
@@ -114,11 +113,19 @@ class WaterfallChart extends React.Component
                 })
                 .attr("y", (d, i) =>
                 {
-                    yPos.push( (yPos.length === 1) ?
-                                0 :
-                                yPos[i] + ( parseFloat(d.value) * -1 ) );
+                    yPos.push( parseFloat(d.value) );
 
-                    return innerHeight - y(yPos[i]);
+                    // first & last bars
+                    if(i === 0 || i === ( data.length - 1 ) )
+                    {
+                        return y(d.value);
+                    }
+
+                    // bars 'eroding' first bar value
+                    return y(yPos.reduce( (sum, value, index) =>
+                    {
+                        return (index === yPos.length - 1) ? sum : sum + value;
+                    }));
                 })
                 .attr("width", x.bandwidth() - ( x.bandwidth() * 0.25 ) )
                 .attr("height", (d, i) =>

@@ -47,7 +47,8 @@ export const INITIAL_STATE = {
       revenue: 9032,
       cogs: 8619
     }
-  ]
+  ],
+  target: 35
 };
 
 /* REDUCERS */
