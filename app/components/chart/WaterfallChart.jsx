@@ -122,10 +122,9 @@ class WaterfallChart extends React.Component
                     }
 
                     // bars 'eroding' first bar value
-                    return y(yPos.reduce( (sum, value, index) =>
-                    {
-                        return (index === yPos.length - 1) ? sum : sum + value;
-                    }));
+                    return ( data[i].gmPercent > data[i-1].gmPercent ) ?
+                        y( parseFloat(data[i].gmPercent) ) :
+                        y( parseFloat(data[i-1].gmPercent) );
                 })
                 .attr("width", x.bandwidth() - ( x.bandwidth() * 0.25 ) )
                 .attr("height", (d, i) =>
