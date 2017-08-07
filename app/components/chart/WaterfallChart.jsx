@@ -12,6 +12,12 @@ class WaterfallChart extends React.Component
         };
 
         this.drawWaterfallChart = this.drawWaterfallChart.bind(this);
+        this.updateDimensions = this.updateDimensions.bind(this);
+    }
+
+    updateDimensions()
+    {
+        this.drawWaterfallChart();
     }
 
     componentWillReceiveProps( nextProps )
@@ -29,6 +35,9 @@ class WaterfallChart extends React.Component
     componentDidMount()
     {
         this.drawWaterfallChart();
+
+        // add an event to redraw the chart on resize
+        window.addEventListener("resize", this.updateDimensions);
     }
 
     componentDidUpdate()
@@ -49,6 +58,14 @@ class WaterfallChart extends React.Component
         // calculate height & width (using golden ratio)
         let width = document.querySelector('.waterfallChart').offsetWidth;
         let height = width / goldenRatio;
+        let margin = {
+            top: 0,
+            bottom: 20,
+            left: 10,
+            right: 10
+        };
+        let innerWidth = width - margin.left - margin.right;
+        let innerHeight = height - margin.top - margin.bottom;
 
         d3.select(".waterfallChart svg").remove();
 
@@ -56,39 +73,67 @@ class WaterfallChart extends React.Component
                     .attr("width", width)
                     .attr("height", height);
         
-        let chartData = data.map(row => row.value);
+        let chart = svg.append("g")
+                        .classed("waterfallChart__bars", true)
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+        let labels = svg.append("g")
+                        .classed("waterfallChart__labels", true)
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         let y = d3.scaleLinear()
             .domain([0, dMax])
-            .range([0, height]);
+            .range([0, innerHeight]);
 
-        let x = d3.scaleLinear()
-            .domain([0, chartData.length])
-            .range([0, width]);
+        let x = d3.scaleBand()
+            .domain(data.map(d =>
+            {
+                return d.name;
+            }))
+            .range([0, innerWidth]);
 
         let yPos = [0];
 
-        svg.selectAll(".bar")
-            .data(chartData)
+        // add bars to the chart
+        chart.selectAll(".waterfallChart__bar")
+            .data(data)
             .enter()
                 .append("rect")
-                .attr("class", "waterfallChart__bar")
+                .classed("waterfallChart__bar", true)
                 .attr("x", (d, i) =>
                 {
-                    return x(i);
+                    return x(d.name) + ( x.bandwidth() * 0.125 );
                 })
                 .attr("y", (d, i) =>
                 {
                     yPos.push( (yPos.length === 1) ?
                                 0 :
-                                yPos[i] + ( parseFloat(d) * -1 ) );
+                                yPos[i] + ( parseFloat(d.value) * -1 ) );
 
                     return y(yPos[i]);
                 })
-                .attr("width", x(0.7))
+                .attr("width", x.bandwidth() - ( x.bandwidth() * 0.25 ) )
                 .attr("height", (d, i) =>
                 {
-                    return  y(Math.abs(d));
+                    return  y(Math.abs(d.value));
+                });
+    
+        // add labels to the chart
+        labels.selectAll(".waterfallChart__barLabel")
+            .data(data)
+            .enter()
+                .append("text")
+                .classed("waterfallChart__barLabel", true)
+                .attr("x", (d, i) =>
+                {
+                    return x(d.name) + ( x.bandwidth() * 0.125 );
+                })
+                .attr("y", height)
+                .attr("width", x.bandwidth() - ( x.bandwidth() * 0.25 ))
+                .attr("text-anchor", "middle")
+                .text((d,i) =>
+                {
+                    return d.name + " (" + d.value + ")";
                 });
     }
 

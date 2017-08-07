@@ -106,10 +106,16 @@ body {
 /* CHART */
 .waterfallChart__bar {
     fill: #ccc;
+    shape-rendering: crispEdges;
 }
-.waterfallChart__bar:first-child {
+.waterfallChart__bar:first-of-type {
     fill: #003a5d;
 }
-.waterfallChart__bar:last-child {
+.waterfallChart__bar:last-of-type {
     fill: #fbb829;
+}
+
+.waterfallChart__barLabel {
+    font-size: 11px;
+    font-weight: bold;
 }

@@ -24,28 +24,28 @@ export const INITIAL_STATE = {
     {
       name: 'STANDARD',
       displayName: 'Standard',
-      revenue: 60000,
-      cogs: 37000
+      revenue: 399895,
+      cogs: 202740
     },{
       name: 'DISCOUNT',
       displayName: 'Discount',
-      revenue: 50000,
-      cogs: 40000
+      revenue: 380779,
+      cogs: 247323
     },{
       name: 'SEGMENTED',
       displayName: 'Segmented',
-      revenue: 40000,
-      cogs: 30000
+      revenue: 6434,
+      cogs: 4166
     },{
       name: 'CONTRACT',
       displayName: 'Contract',
-      revenue: 120000,
-      cogs: 100000
+      revenue: 204490,
+      cogs: 148697
     },{
       name: 'PROMOTIONAL',
       displayName: 'Promo',
-      revenue: 5000,
-      cogs: 3500
+      revenue: 9032,
+      cogs: 8619
     }
   ]
 };
@@ -183,18 +183,18 @@ function calcWaterfallChartValues( data )
   // order array by GM Percentage value
   activeData.sort((a, b) =>
   {
-    if(a.gmPercent < b.gmPercent)
+    if(parseFloat(a.gmPercent) < parseFloat(b.gmPercent))
     {
       return 1;
     }
-    if(a.gmPercent > b.gmPercent)
+    if(parseFloat(a.gmPercent) > parseFloat(b.gmPercent))
     {
       return -1;
     }
     return 0;
   });
 
-  activeData.unshift(data[STANDARD]);
+  activeData.unshift( data[STANDARD] );
 
   // start GM% value
   chartValues.push({
