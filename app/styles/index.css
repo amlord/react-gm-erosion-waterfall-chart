@@ -14,7 +14,7 @@ body {
 }
 
 .panel {
-    max-width: 575px;
+    max-width: 585px;
     margin: 20px auto;
     background: #f2f2f2;
     border-radius: 4px;
@@ -95,8 +95,8 @@ body {
 }
 
 /* FORM */
-.waterfallData td:nth-child(2) input,
-.waterfallData td:last-child input
+.waterfallData td:nth-child(2) input[readonly],
+.waterfallData td:last-child input[readonly]
 {
     background: #e7e7e7;
     border: none;

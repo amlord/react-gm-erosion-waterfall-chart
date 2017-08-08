@@ -23,12 +23,19 @@ class WaterfallChart extends React.Component
 
     componentWillReceiveProps( nextProps )
     {
-        let { waterfall } = this.state;
+        let { waterfall, target } = this.state;
 
         if( nextProps.waterfall !== waterfall )
         {
             this.setState({
                 waterfall: nextProps.waterfall
+            });
+        }
+
+        if( nextProps.target !== target )
+        {
+            this.setState({
+                target: nextProps.target
             });
         }
     }

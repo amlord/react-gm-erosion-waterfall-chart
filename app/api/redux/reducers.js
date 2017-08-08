@@ -94,6 +94,7 @@ export function gmWaterfallApp( state = initialState, action )
       break;
     case SET_TARGET_GM:
       targetGm = action.target;
+      data = state.data;
       break;
     default:
       data = state.data;

@@ -14,12 +14,7 @@ const mapStateToProps = state =>
 
 const mapDispatchToProps = dispatch =>
 {
-  return {
-    onTargetGmUpdate: targetGm =>
-    {
-      dispatch( setTargetGm( targetGm ) )
-    }
-  };
+  return {};
 }
 
 const WaterfallChartContainer = connect(
