@@ -199,6 +199,53 @@ class WaterfallChart extends React.Component
                 return innerHeight - 4;
             });
 
+        // add bars to the chart
+        chart.selectAll(".waterfallChart__dottedLines")
+            .data(data)
+            .enter()
+                .append("line")
+                .classed("waterfallChart__dottedLine", true)
+                .attr("x1", (d, i) =>
+                {
+                    return x(d.name) - ( x.bandwidth() * 0.125 );
+                })
+                .attr("x2", (d, i) =>
+                {
+                    return x(d.name) + ( x.bandwidth() * 0.125 );
+                })
+                .attr("y1", (d, i) =>
+                {
+                    yPos.push( parseFloat(d.value) );
+
+                    // first & last bars
+                    if(i === 0 || i === ( data.length - 1 ) )
+                    {
+                        return y(d.value);
+                    }
+
+                    /* bars 'eroding' first bar value (+ve / -ve 
+                       depending on cumalative GM% effect) */
+                    return ( data[i].gmPercent > data[i-1].gmPercent ) ?
+                        y( parseFloat(data[i].gmPercent) ) :
+                        y( parseFloat(data[i-1].gmPercent) );
+                })
+                .attr("y2", (d, i) =>
+                {
+                    yPos.push( parseFloat(d.value) );
+
+                    // first & last bars
+                    if(i === 0 || i === ( data.length - 1 ) )
+                    {
+                        return y(d.value);
+                    }
+
+                    /* bars 'eroding' first bar value (+ve / -ve 
+                       depending on cumalative GM% effect) */
+                    return ( data[i].gmPercent > data[i-1].gmPercent ) ?
+                        y( parseFloat(data[i].gmPercent) ) :
+                        y( parseFloat(data[i-1].gmPercent) );
+                });
+
         // add the axes
         xAxisGroup.call(xAxis);
         yAxisGroup.call(yAxis);
