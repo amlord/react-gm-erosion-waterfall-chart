@@ -163,3 +163,7 @@ body {
     stroke-width: 1;
     stroke-dasharray: 3;
 }
+
+.waterfallChart__dottedLine:first-of-type {
+    display: none;
+}
