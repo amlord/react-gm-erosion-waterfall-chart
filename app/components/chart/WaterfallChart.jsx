@@ -59,16 +59,20 @@ class WaterfallChart extends React.Component
             targetGm = this.state.target,
             goldenRatio = 1.61803398875;
 
-        // get min & max data values
-        let dMax = d3.max(data, d => {
+        const dataRange  = data.map( d => {
             return d.gmPercent;
-        });
+        } );
+
+        dataRange.push( this.state.target );
+
+        // get min & max data values
+        let dExtent = d3.extent( dataRange );
 
         // calculate height & width (using golden ratio)
         let width = document.querySelector('.waterfallChart').offsetWidth;
         let height = width / goldenRatio;
         let margin = {
-            top: 5,
+            top: 10,
             bottom: 25,
             left: 60,
             right: 10
@@ -103,7 +107,7 @@ class WaterfallChart extends React.Component
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         let y = d3.scaleLinear()
-            .domain([0, dMax])
+            .domain([dExtent[0] - 3, dExtent[1]])
             .range([innerHeight, 0]);
 
         let x = d3.scaleBand()
@@ -149,7 +153,15 @@ class WaterfallChart extends React.Component
                 .attr("width", x.bandwidth() - ( x.bandwidth() * 0.25 ) )
                 .attr("height", (d, i) =>
                 {
-                    return  innerHeight - y(Math.abs(d.value));
+                    let basicBarHeight = y( Math.abs(d.gmPercent) ),
+                        previousBarHeight = y( Math.abs(d.gmPercent) + Math.abs(d.value) );
+
+                    if( i === 0 || i === ( data.length - 1 ) )
+                    {
+                        return  innerHeight - y(Math.abs(d.value));
+                    }
+
+                    return Math.abs( previousBarHeight - basicBarHeight );
                 })
                 .attr("rx", 4)
                 .attr("ry", 4);
