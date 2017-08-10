@@ -44,7 +44,7 @@ export const INITIAL_STATE = {
       cogs: 148697
     },{
       name: 'PROMOTIONAL',
-      displayName: 'Promo',
+      displayName: 'Promotional',
       revenue: 9032,
       cogs: 8619
     }

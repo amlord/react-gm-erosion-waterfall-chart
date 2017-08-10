@@ -69,8 +69,8 @@ class WaterfallChart extends React.Component
         let height = width / goldenRatio;
         let margin = {
             top: 5,
-            bottom: 20,
-            left: 30,
+            bottom: 25,
+            left: 60,
             right: 10
         };
         let innerWidth = width - margin.left - margin.right;
@@ -85,14 +85,18 @@ class WaterfallChart extends React.Component
         let chart = svg.append("g")
                         .classed("waterfallChart__bars", true)
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        
+
         let xAxisGroup = svg.append("g")
                         .classed("waterfallChart__axis waterfallChart__axis--x", true)
                         .attr("transform", "translate(" + margin.left + "," + ( height - margin.bottom ) + ")");
-        
+
         let yAxisGroup = svg.append("g")
                         .classed("waterfallChart__axis waterfallChart__axis--y", true)
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        yAxisGroup.append("text")
+            .text("Gross Margin %")
+            .attr("transform", "rotate(90)");
         
         let target = svg.append("g")
                         .classed("waterfallChart__targetGm", true)
@@ -119,7 +123,9 @@ class WaterfallChart extends React.Component
             .data(data)
             .enter()
                 .append("rect")
-                .classed("waterfallChart__bar", true)
+                .attr("class", d => {
+                    return "waterfallChart__bar waterfallChart__bar--" + d.name.toLowerCase();
+                })
                 .attr("x", (d, i) =>
                 {
                     return x(d.name) + ( x.bandwidth() * 0.125 );
@@ -144,8 +150,40 @@ class WaterfallChart extends React.Component
                 .attr("height", (d, i) =>
                 {
                     return  innerHeight - y(Math.abs(d.value));
-                });
-        
+                })
+                .attr("rx", 4)
+                .attr("ry", 4);
+
+        chart.append("rect")
+            .attr("class", () => {
+                return  "waterfallChart__bar waterfallChart__bar--" + data[0].name.toLowerCase();
+            })
+            .attr("height", 4)
+            .attr("width", x.bandwidth() - ( x.bandwidth() * 0.25 ) )
+            .attr("x", () =>
+            {
+                return x(data[0].name) + ( x.bandwidth() * 0.125 );
+            })
+            .attr("y", () =>
+            {
+                return innerHeight - 4;
+            });
+
+        chart.append("rect")
+            .attr("class", () => {
+                return  "waterfallChart__bar waterfallChart__bar--" + data[data.length-1].name.toLowerCase();
+            })
+            .attr("height", 4)
+            .attr("width", x.bandwidth() - ( x.bandwidth() * 0.25 ) )
+            .attr("x", () =>
+            {
+                return x(data[data.length-1].name) + ( x.bandwidth() * 0.125 );
+            })
+            .attr("y", () =>
+            {
+                return innerHeight - 4;
+            });
+
         // add the axes
         xAxisGroup.call(xAxis);
         yAxisGroup.call(yAxis);

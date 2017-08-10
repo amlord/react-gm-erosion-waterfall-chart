@@ -108,10 +108,12 @@ body {
     fill: #ccc;
     shape-rendering: crispEdges;
 }
-.waterfallChart__bar:first-of-type {
+
+.waterfallChart__bar--standard {
     fill: #003a5d;
 }
-.waterfallChart__bar:last-of-type {
+
+.waterfallChart__bar--actual {
     fill: #fbb829;
 }
 
@@ -120,10 +122,23 @@ body {
     font-weight: bold;
 }
 
+.waterfallChart__axis text {
+    font-size: 12px;
+}
+
 .waterfallChart__axis path,
 .waterfallChart__axis line {
     fill: none;
+    stroke: #ccc;
     shape-rendering: crispEdges;
+}
+
+.waterfallChart__axis--x text {
+    transform: translate( 0, 0.4em );
+}
+
+.waterfallChart__axis--y text {
+    transform: translate( -0.4em, 0 );
 }
 
 .waterfallChart__targetGmLine,
