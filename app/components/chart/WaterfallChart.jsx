@@ -139,8 +139,6 @@ class WaterfallChart extends React.Component
                 })
                 .attr("y", (d, i) =>
                 {
-                    yPos.push( parseFloat(d.value) );
-
                     // first & last bars
                     if(i === 0 || i === ( data.length - 1 ) )
                     {
@@ -215,35 +213,11 @@ class WaterfallChart extends React.Component
                 })
                 .attr("y1", (d, i) =>
                 {
-                    yPos.push( parseFloat(d.value) );
-
-                    // first & last bars
-                    if(i === 0 || i === ( data.length - 1 ) )
-                    {
-                        return y(d.value);
-                    }
-
-                    /* bars 'eroding' first bar value (+ve / -ve 
-                       depending on cumalative GM% effect) */
-                    return ( data[i].gmPercent > data[i-1].gmPercent ) ?
-                        y( parseFloat(data[i].gmPercent) ) :
-                        y( parseFloat(data[i-1].gmPercent) );
+                    return dottedLineY( d, i, data );
                 })
                 .attr("y2", (d, i) =>
                 {
-                    yPos.push( parseFloat(d.value) );
-
-                    // first & last bars
-                    if(i === 0 || i === ( data.length - 1 ) )
-                    {
-                        return y(d.value);
-                    }
-
-                    /* bars 'eroding' first bar value (+ve / -ve 
-                       depending on cumalative GM% effect) */
-                    return ( data[i].gmPercent > data[i-1].gmPercent ) ?
-                        y( parseFloat(data[i].gmPercent) ) :
-                        y( parseFloat(data[i-1].gmPercent) );
+                    return dottedLineY( d, i, data );
                 });
 
         // add the axes
@@ -280,6 +254,21 @@ class WaterfallChart extends React.Component
             .text("GM Target")
             .attr("x", (innerWidth / 2) )
             .attr("y", y(targetGm) + 4 );
+
+        // function to format revenue value consistently
+        function dottedLineY( d, i, data )
+        {
+            // first & last bars
+            if( i === 0 || i === ( data.length - 1 ) )
+            {
+                return y(d.value);
+            }
+
+            // line at top or bottom of bar, depentant upon +ve / -ve effect
+            return ( data[i].gmPercent <= data[i-1].gmPercent || d.value > 0 ) ?
+                y( parseFloat(data[i-1].gmPercent) ) :
+                y( parseFloat(data[i].gmPercent) );
+        }
     }
 
     render()
