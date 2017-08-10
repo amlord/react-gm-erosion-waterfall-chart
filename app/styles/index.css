@@ -133,13 +133,13 @@ body {
     shape-rendering: crispEdges;
 }
 
-.waterfallChart__axis--x text {
+ .waterfallChart__axis--x .tick text {
     transform: translate( 0, 0.4em );
 }
 
-.waterfallChart__axis--y text {
+.waterfallChart__axis--y .tick text {
     transform: translate( -0.4em, 0 );
-}
+} 
 
 .waterfallChart__targetGmLine,
 .waterfallChart__targetGmBox {
@@ -150,5 +150,10 @@ body {
     fill: #fff;
     font-size: 9px;
     font-weight: bold;
+    text-anchor: middle;
+}
+
+.waterfallChart__axisLabel {
+    fill: #ccc;
     text-anchor: middle;
 }

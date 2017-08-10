@@ -74,7 +74,7 @@ class WaterfallChart extends React.Component
         let margin = {
             top: 10,
             bottom: 25,
-            left: 60,
+            left: 50,
             right: 10
         };
         let innerWidth = width - margin.left - margin.right;
@@ -99,8 +99,11 @@ class WaterfallChart extends React.Component
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         yAxisGroup.append("text")
+            .classed("waterfallChart__axisLabel waterfallChart__axisLabel--y", true)
             .text("Gross Margin %")
-            .attr("transform", "rotate(90)");
+            .attr("x", ( innerHeight / 2 ) * -1 )
+            .attr("y", -40 )
+            .attr("transform", "rotate(270)" );
         
         let target = svg.append("g")
                         .classed("waterfallChart__targetGm", true)
