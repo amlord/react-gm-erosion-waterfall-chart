@@ -152,11 +152,34 @@ class WaterfallChart extends React.Component
 
         // add target GM% to the chart
         target
-            .append("rect").classed("waterfallChart__targetGmLine", true)
+            .append("rect")
+            .classed("waterfallChart__targetGmLine", true)
             .attr("x", 0)
             .attr("y", y(targetGm))
             .attr("width", innerWidth )
             .attr("height", 1);
+        
+        const targetBox = {
+            width: 54,
+            height: 16
+        };
+
+        target
+            .append("rect")
+            .classed("waterfallChart__targetGmBox", true)
+            .attr("x", (innerWidth / 2) - (targetBox.width / 2) )
+            .attr("y", y(targetGm) - (targetBox.height / 2) + 1 )
+            .attr("rx", 4)
+            .attr("ry", 4)
+            .attr("height", targetBox.height)
+            .attr("width", targetBox.width);
+        
+        target
+            .append("text")
+            .classed("waterfallChart__targetGmText", true)
+            .text("GM Target")
+            .attr("x", (innerWidth / 2) )
+            .attr("y", y(targetGm) + 4 );
     }
 
     render()

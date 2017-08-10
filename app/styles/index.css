@@ -126,6 +126,14 @@ body {
     shape-rendering: crispEdges;
 }
 
-.waterfallChart__targetGmLine {
+.waterfallChart__targetGmLine,
+.waterfallChart__targetGmBox {
     fill: #F02D52;
+}
+
+.waterfallChart__targetGmText {
+    fill: #fff;
+    font-size: 9px;
+    font-weight: bold;
+    text-anchor: middle;
 }
