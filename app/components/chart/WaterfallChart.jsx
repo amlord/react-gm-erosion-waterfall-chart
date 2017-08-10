@@ -207,11 +207,11 @@ class WaterfallChart extends React.Component
                 .classed("waterfallChart__dottedLine", true)
                 .attr("x1", (d, i) =>
                 {
-                    return x(d.name) - ( x.bandwidth() * 0.125 );
+                    return x(d.name) - ( x.bandwidth() * 0.125 ) + 3;
                 })
                 .attr("x2", (d, i) =>
                 {
-                    return x(d.name) + ( x.bandwidth() * 0.125 );
+                    return x(d.name) + ( x.bandwidth() * 0.125 ) - 3;
                 })
                 .attr("y1", (d, i) =>
                 {
