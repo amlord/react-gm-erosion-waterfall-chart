@@ -13,12 +13,6 @@ class WaterfallChart extends React.Component
         };
 
         this.drawWaterfallChart = this.drawWaterfallChart.bind(this);
-        this.updateDimensions = this.updateDimensions.bind(this);
-    }
-
-    updateDimensions()
-    {
-        this.drawWaterfallChart();
     }
 
     componentWillReceiveProps( nextProps )
@@ -43,9 +37,6 @@ class WaterfallChart extends React.Component
     componentDidMount()
     {
         this.drawWaterfallChart();
-
-        // add an event to redraw the chart on resize
-        window.addEventListener("resize", this.updateDimensions);
     }
 
     componentDidUpdate()
@@ -83,8 +74,9 @@ class WaterfallChart extends React.Component
         d3.select(".waterfallChart svg").remove();
 
         let svg = d3.select(".waterfallChart").append("svg")
-                    .attr("width", width)
-                    .attr("height", height);
+                    // responsive SVG needs these 2 attributes and no width and height attr
+                    .attr("preserveAspectRatio", "xMinYMin meet")
+                    .attr("viewBox", "0 0 " + width + " " + height);
         
         let chart = svg.append("g")
                         .classed("waterfallChart__bars", true)
