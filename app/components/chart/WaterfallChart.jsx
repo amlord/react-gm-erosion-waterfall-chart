@@ -161,7 +161,10 @@ class WaterfallChart extends React.Component
                         return  innerHeight - y(Math.abs(d.value));
                     }
 
-                    return Math.abs( previousBarHeight - basicBarHeight );
+                    const barHeight = Math.abs( previousBarHeight - basicBarHeight );
+
+                    // make sure the bar is always visible
+                    return barHeight !== 0 ? barHeight : 1;
                 })
                 .attr("rx", 4)
                 .attr("ry", 4);
