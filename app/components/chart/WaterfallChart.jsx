@@ -130,7 +130,7 @@ class WaterfallChart extends React.Component
                         return classes;
                     }
 
-                    return classes + " waterfallChart__bar--" + gmPercentColour( d.gmPercent, target );
+                    return classes + " waterfallChart__bar--" + gmPercentColour( d.value, targetGm );
                 })
                 .attr("x", (d, i) =>
                 {
@@ -185,7 +185,7 @@ class WaterfallChart extends React.Component
             .attr("class", () => {
                 let classes = "waterfallChart__bar waterfallChart__bar--" + data[data.length-1].name.toLowerCase();
 
-                return classes + " waterfallChart__bar--" + gmPercentColour( data[data.length-1].gmPercent, target );
+                return classes + " waterfallChart__bar--" + gmPercentColour( data[data.length-1].value, targetGm );
             })
             .attr("height", 4)
             .attr("width", x.bandwidth() - ( x.bandwidth() * 0.25 ) )
