@@ -106,15 +106,22 @@ body {
 /* CHART */
 .waterfallChart__bar {
     fill: #ccc;
-    shape-rendering: crispEdges;
 }
 
 .waterfallChart__bar--standard {
     fill: #003a5d;
 }
 
-.waterfallChart__bar--actual {
+.waterfallChart__bar--warning {
+    fill: #f02d52;
+}
+
+.waterfallChart__bar--caution {
     fill: #fbb829;
+}
+
+.waterfallChart__bar--ok {
+    fill: #2dd00b;
 }
 
 .waterfallChart__barLabel {
@@ -130,7 +137,6 @@ body {
 .waterfallChart__axis line {
     fill: none;
     stroke: #ccc;
-    shape-rendering: crispEdges;
 }
 
  .waterfallChart__axis--x .tick text {

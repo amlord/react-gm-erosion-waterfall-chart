@@ -122,8 +122,25 @@ class WaterfallChart extends React.Component
             .data(data)
             .enter()
                 .append("rect")
-                .attr("class", d => {
-                    return "waterfallChart__bar waterfallChart__bar--" + d.name.toLowerCase();
+                .attr("class", (d,i) => {
+                    let classes = "waterfallChart__bar waterfallChart__bar--" + d.name.toLowerCase();
+
+                    if( i !== ( data.length - 1 ) )
+                    {
+                        return classes;
+                    }
+
+                    if( d.value >= targetGm )
+                    {
+                        return classes + " waterfallChart__bar--ok";
+                    }
+
+                    if( d.value >= ( targetGm - 3 ) )
+                    {
+                        return classes + " waterfallChart__bar--caution";
+                    }
+
+                    return classes + " waterfallChart__bar--warning";
                 })
                 .attr("x", (d, i) =>
                 {
@@ -176,7 +193,19 @@ class WaterfallChart extends React.Component
 
         chart.append("rect")
             .attr("class", () => {
-                return  "waterfallChart__bar waterfallChart__bar--" + data[data.length-1].name.toLowerCase();
+                let classes = "waterfallChart__bar waterfallChart__bar--" + data[data.length-1].name.toLowerCase();
+
+                if( data[data.length-1].value >= targetGm )
+                {
+                    return classes + " waterfallChart__bar--ok";
+                }
+
+                if( data[data.length-1].value >= ( targetGm - 3 ) )
+                {
+                    return classes + " waterfallChart__bar--caution";
+                }
+
+                return classes + " waterfallChart__bar--warning";
             })
             .attr("height", 4)
             .attr("width", x.bandwidth() - ( x.bandwidth() * 0.25 ) )

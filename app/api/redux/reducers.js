@@ -49,7 +49,7 @@ export const INITIAL_STATE = {
       cogs: 8619
     }
   ],
-  target: 35
+  target: 43
 };
 
 /* REDUCERS */
