@@ -130,17 +130,7 @@ class WaterfallChart extends React.Component
                         return classes;
                     }
 
-                    if( d.value >= targetGm )
-                    {
-                        return classes + " waterfallChart__bar--ok";
-                    }
-
-                    if( d.value >= ( targetGm - 3 ) )
-                    {
-                        return classes + " waterfallChart__bar--caution";
-                    }
-
-                    return classes + " waterfallChart__bar--warning";
+                    return classes + " waterfallChart__bar--" + gmPercentColour( d.gmPercent, target );
                 })
                 .attr("x", (d, i) =>
                 {
@@ -195,17 +185,7 @@ class WaterfallChart extends React.Component
             .attr("class", () => {
                 let classes = "waterfallChart__bar waterfallChart__bar--" + data[data.length-1].name.toLowerCase();
 
-                if( data[data.length-1].value >= targetGm )
-                {
-                    return classes + " waterfallChart__bar--ok";
-                }
-
-                if( data[data.length-1].value >= ( targetGm - 3 ) )
-                {
-                    return classes + " waterfallChart__bar--caution";
-                }
-
-                return classes + " waterfallChart__bar--warning";
+                return classes + " waterfallChart__bar--" + gmPercentColour( data[data.length-1].gmPercent, target );
             })
             .attr("height", 4)
             .attr("width", x.bandwidth() - ( x.bandwidth() * 0.25 ) )
@@ -289,6 +269,22 @@ class WaterfallChart extends React.Component
             return ( data[i].gmPercent <= data[i-1].gmPercent || d.value > 0 ) ?
                 y( parseFloat(data[i-1].gmPercent) ) :
                 y( parseFloat(data[i].gmPercent) );
+        }
+
+        // function to format GM% colour consistently
+        function gmPercentColour( gmPercent, target )
+        {
+            if( gmPercent >= target )
+            {
+                return "ok";
+            }
+
+            if( ( gmPercent >= ( target - 3 ) ) )
+            {
+                return "caution";
+            }
+
+            return "warning";
         }
     }
 
