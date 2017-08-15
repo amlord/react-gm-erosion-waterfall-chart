@@ -2,7 +2,7 @@ let React = require('react');
 let { connect } = require('react-redux');
 
 // google maps api
-var GmWaterfallChart = require('../../api/GmWaterfallChart.jsx');
+var GmWaterfallChart = require('../../api/GmWaterfallChart.js');
 
 class WaterfallChart extends React.Component
 {
