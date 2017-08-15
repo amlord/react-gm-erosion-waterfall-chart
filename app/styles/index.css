@@ -113,11 +113,11 @@ body {
 }
 
 .waterfallChart__bar--warning {
-    fill: #f02d52;
+    fill: #f21000;
 }
 
 .waterfallChart__bar--caution {
-    fill: #fbb829;
+    fill: #ffd700;
 }
 
 .waterfallChart__bar--ok {
@@ -149,7 +149,7 @@ body {
 
 .waterfallChart__targetGmLine,
 .waterfallChart__targetGmBox {
-    fill: #F02D52;
+    fill: #000;
 }
 
 .waterfallChart__targetGmText {
