@@ -1,7 +1,8 @@
+const GOLDEN_RATIO = 1.61803398875;
+
 // ----- PRIVATE FUNCTIONS ----------------------------------------------
 function _drawGmWaterfallChart( data, targetGm )
 {
-    const goldenRatio = 1.61803398875;
 
     const dataRange  = data.map( d => {
         return d.gmPercent;
@@ -14,7 +15,7 @@ function _drawGmWaterfallChart( data, targetGm )
 
     // calculate height & width (using golden ratio)
     let width = document.querySelector('.waterfallChart').offsetWidth;
-    let height = width / goldenRatio;
+    let height = width / GOLDEN_RATIO;
     let margin = {
         top: 10,
         bottom: 25,
@@ -249,7 +250,7 @@ const GmWaterfallChart =
 {
     draw: function( data, targetGm )
     {
-        // plot dealer locations on the map
+        // draw the GM Waterfall chart
         _drawGmWaterfallChart( data, targetGm );
     }
 };

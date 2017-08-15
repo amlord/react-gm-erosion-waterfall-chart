@@ -1,7 +1,7 @@
 let React = require('react');
 let { connect } = require('react-redux');
 
-// google maps api
+// custom d3 chart api
 var GmWaterfallChart = require('../../api/GmWaterfallChart.js');
 
 class WaterfallChart extends React.Component
